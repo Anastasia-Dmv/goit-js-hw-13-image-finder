@@ -14,13 +14,14 @@
 
   <body>
     <form class="search-form" id="search-form">
-      <input type="text" name="query" autocomplete="off" placeholder="Search images..." />
+      <input type="text" name="query" autocomplete="off" placeholder="Search images..." onfocus="this.value=''" />
     </form>
+    <ul class="gallery"></ul>
+    <a class="buttons hidden" href='#'>Load more
 
 
-    <!-- <h1 class="text">Поиск данных</h1>
-    <input type="text" name="query" class="input" onfocus="this.value=''" />
-    <div class="content"></div> -->
+    </a>
+
   </body>
 
 </html>

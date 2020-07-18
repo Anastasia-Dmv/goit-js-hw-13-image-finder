@@ -1,56 +1,69 @@
 import './styles.css';
-//import axios from 'axios';
-const axios = require('axios').default;
+import axios from 'axios';
 var debounce = require('lodash.debounce');
 import cardTpl from './templates/cardTpl.hbs'
-// import
-// debounce
-// from 'debounce';
+
+
+//const axios = require('axios').default;
+
 
 
 const apiKey = '17528324-3082acf682c990c8e2fa3d4c7';
-//const test = "https://pixabay.com/api/?image_type=photo&orientation=horizontal&q=cat&page=1&per_page=12&key=17528324-3082acf682c990c8e2fa3d4c7"
-axios.defaults.baseURL = "//https://pixabay.com/api/?image_type=photo&orientation=horizontal&q=";
-const headers = {
-  Authorization: `Bearer ${apiKey}`,
-};
+axios.defaults.baseURL = "https://pixabay.com";
+// const headers = {
+//   Authorization: `Bearer ${apiKey}`,
+// };
 let searchQuery;
-let pageNumber;
+let pageNumber = 1;
 
 const refs = {
   searchInput: document.querySelector('[name="query"]'),
-  form: document.querySelector('.search-form'),
+  ul: document.querySelector('.gallery'),
+  btn: document.querySelector('.buttons'),
+
 }
 refs.searchInput.addEventListener('input', debounce((event => {
+  event.preventDefault();
+  refs.ul.innerHTML = '';
+
   searchQuery = event.target.value;
-  fetchImages(searchQuery);
-}), 500));
+  fetchImages(searchQuery, pageNumber);
 
-async function fetchImages(searchQuery) {
+}), 1000));
+
+async function fetchImages(searchQuery, pageNumber) {
   try {
-    const response = await axios.get(`https://pixabay.com/api/?image_type=photo&orientation=horizontal&q=${searchQuery}&page=1&per_page=12&key=17528324-3082acf682c990c8e2fa3d4c7`)
+    const response = await axios.get(`/api/?image_type=photo&orientation=horizontal&q=${searchQuery}&page=${pageNumber}&per_page=12&key=${apiKey}`)
     const objectsList = response.data.hits;
-    //const oneImage = response.data.hits[0]
-    // const oneImage = objectsList.forEach(element => element);
-
-    console.log(objectsList);
-
-    const markup = `<ul class="gallery">
-  ${cardTpl(objectsList)}
-</ul> `
-
-    refs.form.insertAdjacentHTML('afterend', markup);
+    console.log(objectList);
 
 
+    updateMarkup(objectsList);
+    refs.btn.classList.remove('hidden');
   } catch (error) {
-
     console.error(error);
   }
-
 };
 
+function updateMarkup(data) {
+  const markup = `${cardTpl(data)}`;
+  refs.ul.insertAdjacentHTML('beforeend', markup);
+  window.scrollBy({
+    top: 3000,
+    left: 100,
+    behavior: 'smooth'
+  });
+
+}
+refs.btn.addEventListener('click', () => {
+  pageNumber += 1;
+  fetchImages(searchQuery, pageNumber);
+
+})
 
 
+
+//==============with fetch============
 // const fetchImages = async (searchQuery) => {
 //  
 // const
@@ -59,6 +72,7 @@ async function fetchImages(searchQuery) {
 //   result = response.json();
 // return result;
 // }
+//==============with fetch============
 
 
 //pageNumber
@@ -70,25 +84,6 @@ async function fetchImages(searchQuery) {
 // import {
 //   fetchCountries
 // } from './fetchCountries';
-
-// Your API key: 17528324-3082acf682c990c8e2fa3d4c7
-//  const searchQuery = `${baseURL} + ${что_искать} + &page=номер_страницы&per_page=12&key=твой_ключ
-
-//per page = 12
-//defoult page =1;
-//  при каждом запросе page+=1;
-//сброс при поиске по новому ключевому слову page=1;
-
-// "comments": 78,
-// "downloads": 63296
-// "largeImageURL":
-//   "likes ": 575,
-//   "views": 127450,
-//    "webformatURL":
-
-
-//loadmore inserAdjacentHTML('beforeend', markup)
-
 
 
 
@@ -113,21 +108,17 @@ async function fetchImages(searchQuery) {
 // inputRef.addEventListener(
 //   'input',
 //   debounce(function (e) {
-//     // console.log(e.target.value);
 //     result = e.target.value;
 //     if (result !== '') {
 //       axios
 //         .get(`https://restcountries.eu/rest/v2/name/${result}`)
 //         .then(function (response) {
-//           // handle success
 //           console.log(response.data);
 //         })
 //         .catch(function (error) {
-//           // handle error
 //           console.log(error);
 //         })
 //         .finally(function () {
-//           // always executed
 //         });
 //     }
 //   }, 500),
