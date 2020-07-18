@@ -1,41 +1,30 @@
 body {
   font-family: Arial, Helvetica, sans-serif;
-  font-size: 26px;
+  font-size: 8px;
+
 }
 
-.text {
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 16px;
-}
 
-.input {
-  width: 300px;
-}
-
-.name {
-  text-align: center;
-}
-
-.list {
+.gallery {
   list-style: none;
-}
-
-.container {
   display: flex;
-  justify-content: space-around;
   flex-wrap: wrap;
 }
 
-.list-items {
-  margin-bottom: 20px;
+.stats {
+  display: flex;
+  justify-content: space-around;
+
 }
 
-.languages-list_item {
-  padding: 5px 0;
+.stats-items:hover {
+  color: rgb(8, 92, 131)
 }
 
-/* ========= */
+.material-icons {
+  font-size: 10px;
+}
 
-.countries-list {
-  margin-bottom: 10px;
+.photo-card {
+  margin: 0 5px;
 }
