@@ -1,8 +1,15 @@
 import './styles.css';
 import axios from 'axios';
 var debounce = require('lodash.debounce');
-import cardTpl from './templates/cardTpl.hbs'
+import cardTpl from './templates/cardTpl.hbs';
 
+//var basicLightbox = require('basiclightbox');
+import * as basicLightbox from 'basiclightbox';
+import 'basiclightbox/dist/basicLightbox.min.css';
+
+import PNotify from 'pnotify/dist/es/PNotify.js';
+import 'pnotify/dist/PNotifyBrightTheme.css';
+import PNotifyButtons from 'pnotify/dist/es/PNotifyButtons.js';
 
 //const axios = require('axios').default;
 
@@ -15,6 +22,9 @@ axios.defaults.baseURL = "https://pixabay.com";
 // };
 let searchQuery;
 let pageNumber = 1;
+
+
+
 
 const refs = {
   searchInput: document.querySelector('[name="query"]'),
@@ -35,13 +45,22 @@ async function fetchImages(searchQuery, pageNumber) {
   try {
     const response = await axios.get(`/api/?image_type=photo&orientation=horizontal&q=${searchQuery}&page=${pageNumber}&per_page=12&key=${apiKey}`)
     const objectsList = response.data.hits;
-    console.log(objectList);
+    console.log(objectsList);
+    if (objectsList.length === 0) {
+      refs.btn.classList.add('hidden');
+      PNotify.error({
+        title: 'Oh No!',
+        text: "Let's try again."
+      });
+    } else {
+      updateMarkup(objectsList);
+      refs.btn.classList.remove('hidden');
+
+    }
 
 
-    updateMarkup(objectsList);
-    refs.btn.classList.remove('hidden');
   } catch (error) {
-    console.error(error);
+    throw error;
   }
 };
 
@@ -49,17 +68,44 @@ function updateMarkup(data) {
   const markup = `${cardTpl(data)}`;
   refs.ul.insertAdjacentHTML('beforeend', markup);
   window.scrollBy({
-    top: 3000,
+    top: 1000,
     left: 100,
     behavior: 'smooth'
   });
 
-}
+};
 refs.btn.addEventListener('click', () => {
   pageNumber += 1;
   fetchImages(searchQuery, pageNumber);
 
-})
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//=======modal=============
+document.querySelector('.gallery').onclick = () => {
+
+  const largeImageUrl = event.target.getAttribute('data-image');
+
+  console.log(largeImageUrl);
+  basicLightbox.create(`
+		<img width="1400"
+		height="900"
+		src="${largeImageUrl}">
+	`).show()
+
+};
 
 
 
@@ -75,12 +121,6 @@ refs.btn.addEventListener('click', () => {
 //==============with fetch============
 
 
-//pageNumber
-// "${searchQuery}&page=2&key=${apiKey}"
-
-// //import PNotify from 'pnotify/dist/es/PNotify.js';
-// import 'pnotify/dist/PNotifyBrightTheme.css';
-// import PNotifyButtons from 'pnotify/dist/es/PNotifyButtons.js';
 // import {
 //   fetchCountries
 // } from './fetchCountries';
@@ -101,7 +141,7 @@ refs.btn.addEventListener('click', () => {
 
 
 
-// PNotify.alert('Notice me, senpai!');
+
 // const axios = require('axios').default;
 //import {debounce} from 'debounce';
 
