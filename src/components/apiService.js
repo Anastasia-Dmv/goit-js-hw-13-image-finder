@@ -12,9 +12,6 @@ import {
 
 const apiKey = '17528324-3082acf682c990c8e2fa3d4c7';
 axios.defaults.baseURL = "https://pixabay.com";
-// const headers = {
-//   Authorization: `Bearer ${apiKey}`,
-// };
 
 
 export async function fetchImages(searchQuery, pageNumber) {
@@ -38,3 +35,6 @@ export async function fetchImages(searchQuery, pageNumber) {
     throw error;
   }
 };
+// const headers = {
+//   Authorization: `Bearer ${apiKey}`,
+// };

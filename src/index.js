@@ -7,12 +7,9 @@ import cardTpl from './templates/cardTpl.hbs';
 import * as basicLightbox from 'basiclightbox';
 import 'basiclightbox/dist/basicLightbox.min.css';
 
-
 import {
   fetchImages
 } from './components/apiService';
-
-
 
 let searchQuery;
 let pageNumber = 1;
@@ -41,21 +38,6 @@ refs.btn.addEventListener('click', () => {
 
 });
 
-
-
-
-
-
-
-
-
-
-
-//const axios = require('axios').default;
-//var basicLightbox = require('basiclightbox');
-
-
-
 //=======modal=============
 document.querySelector('.gallery').onclick = () => {
 
@@ -63,15 +45,12 @@ document.querySelector('.gallery').onclick = () => {
 
   console.log(largeImageUrl);
   basicLightbox.create(`
-		<img width="1400"
-		height="900"
-		src="${largeImageUrl}">
+  <img width="1400"
+  height="900"
+  src="${largeImageUrl}">
 	`).show()
 
 };
-
-
-
 //==============with fetch============
 // const fetchImages = async (searchQuery) => {
 //  
@@ -83,46 +62,5 @@ document.querySelector('.gallery').onclick = () => {
 // }
 //==============with fetch============
 
-
-// import {
-//   fetchCountries
-// } from './fetchCountries';
-
-
-
-
-
-
-
-
-
-
-
-
-
-//===========
-
-
-
-
-// const axios = require('axios').default;
-//import {debounce} from 'debounce';
-
-// inputRef.addEventListener(
-//   'input',
-//   debounce(function (e) {
-//     result = e.target.value;
-//     if (result !== '') {
-//       axios
-//         .get(`https://restcountries.eu/rest/v2/name/${result}`)
-//         .then(function (response) {
-//           console.log(response.data);
-//         })
-//         .catch(function (error) {
-//           console.log(error);
-//         })
-//         .finally(function () {
-//         });
-//     }
-//   }, 500),
-// );
+//const axios = require('axios').default;
+//var basicLightbox = require('basiclightbox');
